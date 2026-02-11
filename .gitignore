@@ -1,19 +1,17 @@
-# Virtual Environment
-venv/
-env/
-ENV/
-venv.bak/
-
 # Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.pyo
-*.pyc
 *.db
 *.sqlite3
 *.log
+
+# Virtual Environment
+venv/
+env/
+ENV/
+venv.bak/
 
 # IDE
 .vscode/

@@ -1,0 +1,22 @@
+# Virtual Environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Database
+*.db
+*.sqlite3
+*.sql
+
+# IDE
+.vscode/
+.idea/
+
+# Local settings
+local_settings.py
+.env
+create_db.py
+create_default_users.py
+*.bak
+.DS_Store

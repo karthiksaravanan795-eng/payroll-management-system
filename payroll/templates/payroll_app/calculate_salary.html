@@ -1,0 +1,177 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block app_content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header py-3" style="background: linear-gradient(45deg, #dc3545, #e83e8c);">
+                <h2 class="text-white m-0"><i class="fas fa-calculator me-2"></i>Calculate Salary</h2>
+            </div>
+            <div class="card-body p-4">
+                
+                {% if not calculated %}
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.employee.id_for_label }}" class="form-label fw-bold">
+                                Select Employee
+                            </label>
+                            {{ form.employee }}
+                            {% if form.employee.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.employee.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <label for="{{ form.month.id_for_label }}" class="form-label fw-bold">
+                                Month
+                            </label>
+                            {{ form.month }}
+                            {% if form.month.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.month.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Format: Jan-2024, Feb-2024, etc.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        {% if user.is_superuser %}
+                            <a href="{% url 'admin_panel' %}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                            </a>
+                        {% elif user.groups.filter.name == 'Manager' %}
+                            <a href="{% url 'manager_panel' %}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                            </a>
+                        {% endif %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-calculator me-1"></i> Calculate Salary
+                        </button>
+                    </div>
+                </form>
+                
+                {% else %}
+                <!-- Salary Calculation Results -->
+                <div class="alert alert-success">
+                    <h4><i class="fas fa-check-circle me-2"></i>Salary Calculated Successfully!</h4>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="m-0">Employee Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <th>Employee:</th>
+                                        <td>{{ employee.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Department:</th>
+                                        <td>{{ employee.department.dept_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Month:</th>
+                                        <td>{{ month }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="m-0">Attendance Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <th>Working Days:</th>
+                                        <td>{{ working_days }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Present Days:</th>
+                                        <td>{{ present_days }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Overtime Hours:</th>
+                                        <td>{{ overtime_hours }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Salary Breakdown -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="m-0">Salary Breakdown</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Calculation</th>
+                                    <th class="text-end">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Base Salary</td>
+                                    <td>Monthly Fixed</td>
+                                    <td class="text-end">{{ base_salary|floatformat:2 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Daily Salary</td>
+                                    <td>₹{{ base_salary|floatformat:2 }} ÷ {{ working_days }} days</td>
+                                    <td class="text-end">{{ daily_salary|floatformat:2 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Earned Salary</td>
+                                    <td>₹{{ daily_salary|floatformat:2 }} × {{ present_days }} days</td>
+                                    <td class="text-end">{{ earned_salary|floatformat:2 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Overtime Pay</td>
+                                    <td>{{ overtime_hours }} hours × ₹100/hour</td>
+                                    <td class="text-end">{{ overtime_pay|floatformat:2 }}</td>
+                                </tr>
+                                <tr class="table-primary fw-bold">
+                                    <td colspan="2">Total Salary</td>
+                                    <td class="text-end">₹{{ total_salary|floatformat:2 }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'calculate_salary' %}" class="btn btn-secondary">
+                        <i class="fas fa-redo me-1"></i> Calculate Another Salary
+                    </a>
+                    <a href="{% url 'view_reports' %}" class="btn btn-info">
+                        <i class="fas fa-chart-bar me-1"></i> View All Reports
+                    </a>
+                </div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

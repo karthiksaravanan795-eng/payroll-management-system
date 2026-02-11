@@ -1,0 +1,245 @@
+/* ========================
+   PAYROLL SYSTEM STYLES
+   ======================== */
+
+:root {
+    --primary-gradient: linear-gradient(45deg, #667eea, #764ba2);
+    --secondary-gradient: linear-gradient(45deg, #28a745, #20c997);
+    --warning-gradient: linear-gradient(45deg, #fd7e14, #ffc107);
+    --danger-gradient: linear-gradient(45deg, #dc3545, #e83e8c);
+    --info-gradient: linear-gradient(45deg, #17a2b8, #20c997);
+    --dark-gradient: linear-gradient(45deg, #343a40, #495057);
+}
+
+/* Body Styling */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(102, 126, 234, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 20%);
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+    padding: 1.5rem;
+}
+
+/* Button Styling */
+.btn {
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+}
+
+.btn-success {
+    background: var(--secondary-gradient);
+}
+
+.btn-warning {
+    background: var(--warning-gradient);
+}
+
+.btn-danger {
+    background: var(--danger-gradient);
+}
+
+.btn-info {
+    background: var(--info-gradient);
+}
+
+/* Form Styling */
+.form-control {
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+/* Table Styling */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: #667eea;
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-color: #e2e8f0;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+/* Alert Styling */
+.alert {
+    border-radius: 10px;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+/* Badge Styling */
+.badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Dashboard Stats Cards */
+.stats-card {
+    border-left: 4px solid;
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Action Cards */
+.action-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.action-card:hover {
+    border-color: #667eea;
+    background-color: rgba(102, 126, 234, 0.02);
+}
+
+/* Login Page */
+.min-vh-80 {
+    min-height: 80vh;
+}
+
+/* Salary Slip Styles */
+.salary-slip {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #5a6fd8, #6a5ca8);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .table-responsive {
+        border-radius: 10px;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Custom Utilities */
+.text-purple {
+    color: #6f42c1 !important;
+}
+
+.bg-purple {
+    background-color: #6f42c1 !important;
+}
+
+.border-left-primary {
+    border-left: 4px solid #4e73df !important;
+}
+
+.border-left-success {
+    border-left: 4px solid #1cc88a !important;
+}
+
+.border-left-info {
+    border-left: 4px solid #36b9cc !important;
+}
+
+.border-left-warning {
+    border-left: 4px solid #f6c23e !important;
+}

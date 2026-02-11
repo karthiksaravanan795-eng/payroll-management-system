@@ -1,0 +1,211 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block app_content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header py-3" style="background: linear-gradient(45deg, #17a2b8, #20c997);">
+                <h2 class="text-white m-0"><i class="fas fa-file-invoice me-2"></i>Salary Slip</h2>
+            </div>
+            <div class="card-body p-4">
+                
+                <!-- Printable Salary Slip -->
+                <div class="salary-slip p-4 border" id="salarySlip">
+                    <!-- Company Header -->
+                    <div class="text-center mb-4">
+                        <h2 class="text-primary">XYZ Corporation</h2>
+                        <p class="text-muted">123 Business Street, City, State - 123456</p>
+                        <h3 class="border-top border-bottom py-2">SALARY SLIP</h3>
+                    </div>
+                    
+                    <!-- Employee & Period Details -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th>Employee ID:</th>
+                                    <td>{{ salary_slip.employee.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Employee Name:</th>
+                                    <td>{{ salary_slip.employee.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Department:</th>
+                                    <td>{{ salary_slip.employee.department.dept_name }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th>Month:</th>
+                                    <td>{{ salary_slip.month }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Payment Date:</th>
+                                    <td>{{ salary_slip.calculated_at|date:"d M Y" }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Slip ID:</th>
+                                    <td>SLIP-{{ salary_slip.id|stringformat:"06d" }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Salary Details Table -->
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Earnings</th>
+                                    <th class="text-end">Amount (₹)</th>
+                                    <th>Deductions</th>
+                                    <th class="text-end">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Basic Salary</td>
+                                    <td class="text-end">{{ salary_slip.base_salary|floatformat:2 }}</td>
+                                    <td>-</td>
+                                    <td class="text-end">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Overtime Pay</td>
+                                    <td class="text-end">{{ salary_slip.overtime_pay|floatformat:2 }}</td>
+                                    <td>-</td>
+                                    <td class="text-end">0.00</td>
+                                </tr>
+                                <tr class="table-secondary fw-bold">
+                                    <td>Total Earnings</td>
+                                    <td class="text-end">{{ salary_slip.total_salary|floatformat:2 }}</td>
+                                    <td>Total Deductions</td>
+                                    <td class="text-end">0.00</td>
+                                </tr>
+                                <tr class="table-success fw-bold">
+                                    <td colspan="3" class="text-end">NET SALARY PAYABLE:</td>
+                                    <td class="text-end">₹{{ salary_slip.total_salary|floatformat:2 }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Attendance Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h6 class="m-0">Attendance Summary</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>Working Days: <strong>{{ salary_slip.working_days }}</strong></p>
+                                    <p>Present Days: <strong>{{ salary_slip.present_days }}</strong></p>
+                                    <p>Overtime Hours: <strong>{{ salary_slip.overtime_hours }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h6 class="m-0">Payment Summary</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>Mode: <strong>Bank Transfer</strong></p>
+                                    <p>Account: <strong>XXXXXXXXXXXX</strong></p>
+                                    <p>Status: <span class="badge bg-success">Paid</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="row mt-4 pt-4 border-top">
+                        <div class="col-md-6 text-center">
+                            <p class="mb-1">___________________</p>
+                            <p class="text-muted">Employee Signature</p>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <p class="mb-1">___________________</p>
+                            <p class="text-muted">Authorized Signature</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <p class="text-muted small">
+                            This is a computer-generated salary slip. No signature required.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="mt-4 d-flex justify-content-between">
+                    <div>
+                        <a href="{% url 'view_reports' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Reports
+                        </a>
+                    </div>
+                    <div>
+                        <button onclick="window.print()" class="btn btn-primary me-2">
+                            <i class="fas fa-print me-1"></i> Print Slip
+                        </button>
+                        <button onclick="downloadAsPDF()" class="btn btn-success">
+                            <i class="fas fa-download me-1"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function downloadAsPDF() {
+        alert("PDF download functionality would be implemented here. For now, use Print > Save as PDF.");
+    }
+    
+    // Print styles
+    const printStyle = `
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #salarySlip, #salarySlip * {
+                visibility: visible;
+            }
+            #salarySlip {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    `;
+    
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = printStyle;
+    document.head.appendChild(styleSheet);
+</script>
+
+<style>
+    .salary-slip {
+        background: white;
+        font-family: 'Courier New', monospace;
+    }
+    @media print {
+        .btn, nav, .alert {
+            display: none !important;
+        }
+    }
+</style>
+{% endblock %}

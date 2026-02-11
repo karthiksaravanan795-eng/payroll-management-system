@@ -1,0 +1,158 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block app_content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3" style="background: linear-gradient(45deg, #6c757d, #495057);">
+                <h2 class="text-white m-0"><i class="fas fa-database me-2"></i>All System Data</h2>
+            </div>
+            <div class="card-body">
+                
+                <!-- Departments Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="m-0"><i class="fas fa-building me-2"></i>Departments</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if departments %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Department Name</th>
+                                        <th>Created At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for dept in departments %}
+                                    <tr>
+                                        <td>{{ dept.id }}</td>
+                                        <td>{{ dept.dept_name }}</td>
+                                        <td>{{ dept.created_at|date:"d M Y, H:i" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-building fa-3x text-muted mb-3"></i>
+                            <h5>No Departments Found</h5>
+                            <a href="{% url 'add_department' %}" class="btn btn-primary mt-2">
+                                <i class="fas fa-plus me-1"></i> Add Department
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Employees Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="m-0"><i class="fas fa-users me-2"></i>Employees</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if employees %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Department</th>
+                                        <th>Base Salary</th>
+                                        <th>Join Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for emp in employees %}
+                                    <tr>
+                                        <td>{{ emp.id }}</td>
+                                        <td>{{ emp.name }}</td>
+                                        <td>{{ emp.department.dept_name }}</td>
+                                        <td>₹{{ emp.base_salary|floatformat:2 }}</td>
+                                        <td>{{ emp.join_date|date:"d M Y" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <h5>No Employees Found</h5>
+                            <a href="{% url 'add_employee' %}" class="btn btn-success mt-2">
+                                <i class="fas fa-user-plus me-1"></i> Add Employee
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Salary Slips Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="m-0"><i class="fas fa-file-invoice-dollar me-2"></i>Salary Slips</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if salary_slips %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Month</th>
+                                        <th>Base Salary</th>
+                                        <th>Present Days</th>
+                                        <th>Overtime</th>
+                                        <th>Total Salary</th>
+                                        <th>Calculated On</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for slip in salary_slips %}
+                                    <tr>
+                                        <td>{{ slip.employee.name }}</td>
+                                        <td>{{ slip.month }}</td>
+                                        <td>₹{{ slip.base_salary|floatformat:2 }}</td>
+                                        <td>{{ slip.present_days }}/{{ slip.working_days }}</td>
+                                        <td>{{ slip.overtime_hours }} hrs</td>
+                                        <td class="fw-bold">₹{{ slip.total_salary|floatformat:2 }}</td>
+                                        <td>{{ slip.calculated_at|date:"d M Y" }}</td>
+                                        <td>
+                                            <a href="{% url 'salary_report' slip.id %}" class="btn btn-sm btn-outline-info">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-file-invoice-dollar fa-3x text-muted mb-3"></i>
+                            <h5>No Salary Records Found</h5>
+                            <p class="text-muted">Calculate salaries to generate salary slips</p>
+                            <a href="{% url 'calculate_salary' %}" class="btn btn-info mt-2">
+                                <i class="fas fa-calculator me-1"></i> Calculate Salary
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="{% url 'admin_panel' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

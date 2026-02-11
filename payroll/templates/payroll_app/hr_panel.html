@@ -1,0 +1,60 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block app_content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center" style="background: linear-gradient(45deg, #fd7e14, #ffc107);">
+                <h2 class="text-white m-0"><i class="fas fa-users me-2"></i>HR Dashboard</h2>
+                <span class="badge bg-light text-dark fs-6">Employee Management Access</span>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-info-circle me-2"></i>
+                    As HR, you can manage employees, record attendance, and view reports. Salary calculation is restricted.
+                </div>
+                
+                <h4 class="mb-4"><i class="fas fa-tasks me-2 text-warning"></i>HR Actions</h4>
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <a href="{% url 'add_employee' %}" class="card action-card text-decoration-none">
+                            <div class="card-body text-center py-4">
+                                <i class="fas fa-user-plus fa-3x text-success mb-3"></i>
+                                <h5 class="card-title">Add Employee</h5>
+                                <p class="card-text text-muted small">Register new employees</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <a href="{% url 'view_employees' %}" class="card action-card text-decoration-none">
+                            <div class="card-body text-center py-4">
+                                <i class="fas fa-users fa-3x text-info mb-3"></i>
+                                <h5 class="card-title">View Employees</h5>
+                                <p class="card-text text-muted small">Browse employee directory</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <a href="{% url 'record_attendance' %}" class="card action-card text-decoration-none">
+                            <div class="card-body text-center py-4">
+                                <i class="fas fa-calendar-check fa-3x text-primary mb-3"></i>
+                                <h5 class="card-title">Record Attendance</h5>
+                                <p class="card-text text-muted small">Mark daily attendance</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <a href="{% url 'view_reports' %}" class="card action-card text-decoration-none">
+                            <div class="card-body text-center py-4">
+                                <i class="fas fa-chart-bar fa-3x text-purple mb-3"></i>
+                                <h5 class="card-title">View Reports</h5>
+                                <p class="card-text text-muted small">Salary and analytics</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

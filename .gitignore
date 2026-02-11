@@ -1,17 +1,19 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.db
-*.sqlite3
-*.log
-
 # Virtual Environment
 venv/
 env/
 ENV/
 venv.bak/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyo
+*.pyc
+*.db
+*.sqlite3
+*.log
 
 # IDE
 .vscode/
@@ -21,30 +23,20 @@ venv.bak/
 *~
 
 # Django
-*.pot
-*.pyc
-__pycache__/
 local_settings.py
 db.sqlite3
-db.sqlite3-journal
 media/
 
 # Database
 *.sql
-*.mdb
 payroll_db.sql
 
 # Environment
 .env
 .env.local
-.env.production
 
 # Project specific
 create_db.py
 create_default_users.py
 *.bak
 .DS_Store
-
-# Migration files (keep these!)
-# !payroll/migrations/__init__.py
-# !payroll/migrations/0001_initial.py
